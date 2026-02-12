@@ -34,7 +34,6 @@ public class ProductService {
     }
 
     // create new product
-    @PostMapping
     public ProductResponse createProduct(ProductRequest productRequest) {
 
         // Map DTO to Entity
