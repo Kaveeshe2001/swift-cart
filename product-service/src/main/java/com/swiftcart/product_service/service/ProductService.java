@@ -61,4 +61,20 @@ public class ProductService {
         }
         productRepository.deleteById(id);
     }
+
+    // update product
+    public ProductResponse updateProduct(Long id, ProductRequest productRequest) {
+        // check if product exists
+        Product existingProduct = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Cannot update. Product not found with id: " + id));
+
+        // update the fields using mapper
+        productMapper.updateEntity(productRequest, existingProduct);
+
+        // save the update entity
+        Product updateProduct = productRepository.save(existingProduct);
+
+        // return the response
+        return productMapper.toResponse(updateProduct);
+    }
 }
