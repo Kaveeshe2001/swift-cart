@@ -2,6 +2,7 @@ package com.swiftcart.product_service.controller;
 
 import com.swiftcart.product_service.dtos.ProductRequest;
 import com.swiftcart.product_service.dtos.ProductResponse;
+import com.swiftcart.product_service.response.ApiResponse;
 import com.swiftcart.product_service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,29 +23,47 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest productRequest) {
-        return new ResponseEntity<>(productService.createProduct(productRequest), HttpStatus.CREATED);
+    public ResponseEntity<ApiResponse> createProduct(@RequestBody ProductRequest productRequest) {
+        ProductResponse createdProduct = productService.createProduct(productRequest);
+
+        return new ResponseEntity<>(
+                new ApiResponse("Product created successfully", createdProduct),
+                HttpStatus.CREATED
+        );
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> getAllProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
+    public ResponseEntity<ApiResponse> getAllProducts() {
+        List<ProductResponse> products = productService.getAllProducts();
+
+        return ResponseEntity.ok(
+                new ApiResponse("All products retrieved successfully", products)
+        );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> getProductById(@PathVariable Long id) {
-        return ResponseEntity.ok(productService.getProductById(id));
+    public ResponseEntity<ApiResponse> getProductById(@PathVariable Long id) {
+        ProductResponse product = productService.getProductById(id);
+
+        return ResponseEntity.ok(
+                new ApiResponse("Product found", product)
+        );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(
+                new ApiResponse("Product deleted successfully", null)
+        );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
-        ProductResponse updateProduct = productService.updateProduct(id, productRequest);
-        return ResponseEntity.ok(updateProduct);
+    public ResponseEntity<ApiResponse> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
+        ProductResponse updatedProduct = productService.updateProduct(id, productRequest);
+
+        return ResponseEntity.ok(
+                new ApiResponse("Product updated successfully", updatedProduct)
+        );
     }
 }
