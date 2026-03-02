@@ -1,4 +1,4 @@
-package com.swiftcart.notification_service.Service;
+package com.swift_cart.notification_service.Service;
 
 
 import com.swiftcart.notification_service.Dto.NotificationResponse;
