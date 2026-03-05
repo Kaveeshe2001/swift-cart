@@ -4,7 +4,6 @@ import com.swiftcart.review_service.dtos.ReviewRequest;
 import com.swiftcart.review_service.dtos.ReviewResponse;
 import com.swiftcart.review_service.response.ApiResponse;
 import com.swiftcart.review_service.service.ReviewService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +12,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/reviews")
-@CrossOrigin(origins = "http://localhost:5173")
-@RequiredArgsConstructor
 public class ReviewController {
 
     private final ReviewService reviewService;
+
+    // Explicit constructor replaces @RequiredArgsConstructor
+    public ReviewController(ReviewService reviewService) {
+        this.reviewService = reviewService;
+    }
 
     @PostMapping
     public ResponseEntity<ApiResponse<ReviewResponse>> createReview(@RequestBody ReviewRequest request) {
@@ -26,11 +28,12 @@ public class ReviewController {
                 .body(new ApiResponse<>("Review added successfully", true, savedReview));
     }
 
-    @GetMapping("/product/{watchId}")
-    public ResponseEntity<ApiResponse<List<ReviewResponse>>> getWatchReviews(@PathVariable Long watchId) {
-        List<ReviewResponse> reviews = reviewService.getReviewsForWatch(watchId);
+    @GetMapping("/product/{productId}")
+    public ResponseEntity<ApiResponse<List<ReviewResponse>>> getProductReviews(@PathVariable Long productId) {
+        List<ReviewResponse> reviews = reviewService.getReviewsForWatch(productId);
         return ResponseEntity.ok(new ApiResponse<>("Reviews fetched successfully", true, reviews));
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<ReviewResponse>> updateReview(
             @PathVariable Long id,
