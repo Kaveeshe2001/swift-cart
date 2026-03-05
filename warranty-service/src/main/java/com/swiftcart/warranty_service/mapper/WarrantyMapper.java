@@ -13,8 +13,8 @@ public class WarrantyMapper {
         Warranty warranty = new Warranty();
         warranty.setProductId(request.getProductId());
         warranty.setUserId(request.getUserId());
+        warranty.setOrderId(request.getOrderId());
         warranty.setPurchaseDate(LocalDate.now());
-        // Automatically calculate expiration date based on the months provided!
         warranty.setExpirationDate(LocalDate.now().plusMonths(request.getDurationInMonths()));
         warranty.setStatus("ACTIVE");
         return warranty;
@@ -24,10 +24,10 @@ public class WarrantyMapper {
         WarrantyResponse response = new WarrantyResponse();
         response.setId(warranty.getId());
         response.setProductId(warranty.getProductId());
+        response.setOrderId(warranty.getOrderId());
         response.setPurchaseDate(warranty.getPurchaseDate());
         response.setExpirationDate(warranty.getExpirationDate());
 
-        // Dynamically check if the warranty is expired right now before sending to frontend
         if (LocalDate.now().isAfter(warranty.getExpirationDate())) {
             response.setStatus("EXPIRED");
         } else {

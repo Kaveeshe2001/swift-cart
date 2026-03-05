@@ -4,18 +4,19 @@ import com.swiftcart.warranty_service.dtos.WarrantyRequest;
 import com.swiftcart.warranty_service.dtos.WarrantyResponse;
 import com.swiftcart.warranty_service.response.ApiResponse;
 import com.swiftcart.warranty_service.service.WarrantyService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/warranties")
-@CrossOrigin(origins = "http://localhost:5173") // Assuming your React app runs on Vite's default port
-@RequiredArgsConstructor
 public class WarrantyController {
 
     private final WarrantyService warrantyService;
+
+    public WarrantyController(WarrantyService warrantyService) {
+        this.warrantyService = warrantyService;
+    }
 
     @PostMapping
     public ResponseEntity<ApiResponse<WarrantyResponse>> registerWarranty(@RequestBody WarrantyRequest request) {
