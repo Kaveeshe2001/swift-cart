@@ -84,4 +84,17 @@ public class AuthService {
     public void validateToken(String token) {
         jwtService.validateToken(token);
     }
+
+    public com.swiftcart.identity_service.dtos.UserResponse getUserById(Long id) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new AuthException("User not found with ID: " + id));
+
+        com.swiftcart.identity_service.dtos.UserResponse response = new com.swiftcart.identity_service.dtos.UserResponse();
+
+        // Ensure these match your actual User entity getters!
+        response.setEmail(user.getEmail());
+        response.setUsername(user.getName());
+
+        return response;
+    }
 }

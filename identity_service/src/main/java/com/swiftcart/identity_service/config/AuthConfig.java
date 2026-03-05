@@ -16,7 +16,8 @@ public class AuthConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/register", "/auth/login", "/auth/validate").permitAll()
+                        // Explicitly allow the exact path pattern the Feign client is using
+                        .requestMatchers("/auth/*", "/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .build();

@@ -35,4 +35,9 @@ public class AuthController {
         authService.validateToken(token);
         return ResponseEntity.ok(new ApiResponse("Token is valid", null));
     }
+
+    @GetMapping("/{id}")
+    public org.springframework.http.ResponseEntity<com.swiftcart.identity_service.dtos.UserResponse> getUserById(@PathVariable Long id) {
+        return org.springframework.http.ResponseEntity.ok(authService.getUserById(id));
+    }
 }
