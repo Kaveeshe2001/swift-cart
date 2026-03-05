@@ -31,5 +31,37 @@ spring:
               filters:
                 - AuthenticationFilter
 
+            # Route 4: Inventory Service
+            - id: inventory-service
+              uri: lb://INVENTORY-SERVICE
+              predicates:
+                - Path=/inventory/**
+              filters:
+                - AuthenticationFilter
+
+            # Route 5: Order Service
+            - id: order-service
+              uri: lb://ORDER-SERVICE
+              predicates:
+                - Path=/orders/**
+              filters:
+                - AuthenticationFilter
+
+            # Route 6: Payment Service
+            - id: payment-service
+              uri: lb://PAYMENT-SERVICE
+              predicates:
+                - Path=/payments/**
+              filters:
+                - AuthenticationFilter
+
+            # Route 6: Shipping Service
+            - id: shipping-service
+              uri: lb://SHIPPING-SERVICE
+              predicates:
+                - Path=/shipping/**
+              filters:
+                - AuthenticationFilter
+
 jwt:
   secret: 5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437
