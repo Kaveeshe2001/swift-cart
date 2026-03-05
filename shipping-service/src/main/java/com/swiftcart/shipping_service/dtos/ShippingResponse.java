@@ -13,4 +13,3 @@ public record ShippingResponse(
         String shippingAddress,
         LocalDate estimatedDeliveryDate
 ) {}
-
